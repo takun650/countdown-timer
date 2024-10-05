@@ -12,15 +12,22 @@
     margin: 20px;
 }
 
+#roundInfo {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+#description {
+    text-align: center;
+    margin: 10px;
+    font-size: 1.1rem;
+    color: #666; /* 説明文を少し淡いグレーにして目立ちすぎないように */
+}
+
 button {
     display: block;
     margin: 20px auto;
     padding: 10px 20px;
     font-size: 1.5rem;
-}
-
-#roundInfo {
-    text-align: center;
-    font-size: 1.2rem;
-    margin-top: 10px;
 }
