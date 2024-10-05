@@ -25,6 +25,7 @@ button {
     margin: 20px auto;
     padding: 10px 20px;
     font-size: 1.5rem;
+    color: #333; /* ダークグレーでクールな雰囲気 */
 }
 
 #description {
