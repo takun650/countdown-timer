@@ -16,11 +16,15 @@ let countdownDuration = 60;  // 60秒間カウントダウン
 let intervalDuration = 2;    // 2秒インターバル
 
 let isStopped = false;  // ストップ状態を管理する変数
+let remainingTime;      // ストップ後に再開するための残り時間
 
 function startCountdown() {
-    let remainingTime = countdownDuration;
-    roundInfo.textContent = `ラウンド ${currentRound + 1} / ${totalRounds}`;
+    if (!remainingTime) {
+        remainingTime = countdownDuration;  // 残り時間がない場合は初期値をセット
+    }
     
+    roundInfo.textContent = `ラウンド ${currentRound + 1} / ${totalRounds}`;
+
     // カウントダウンスタート時に音を鳴らす
     startSound.play();
 
@@ -66,6 +70,7 @@ function startInterval() {
 
         if (remainingInterval === 0) {
             clearInterval(interval);
+            remainingTime = countdownDuration;  // 次のカウントダウンに向けて時間リセット
             startCountdown();
         } else {
             remainingInterval--;
@@ -78,8 +83,7 @@ startButton.addEventListener('click', () => {
     isStopped = false;  // ストップ状態を解除
     clearInterval(countdown);  // スタートを押すたびにタイマーをリセット
     clearInterval(interval);
-    currentRound = 0;
-    startCountdown();
+    startCountdown();  // 残り時間から再開
 });
 
 // ストップボタンの動作
