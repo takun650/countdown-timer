@@ -9,7 +9,7 @@
 #countdown {
     font-size: 3rem;
     text-align: center;
-    margin: 20px;
+    margin: 50px;
 }
 
 #roundInfo {
@@ -27,7 +27,7 @@ button {
 
 #description {
     text-align: center;
-    margin: 30px;
-    font-size: 1.1rem;
+    margin: 100px;
+    font-size: 1rem;
     color: #666; /* 説明文を少し淡いグレーにして目立ちすぎないように */
 }
