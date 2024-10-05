@@ -13,13 +13,20 @@
 </head>
 <body>
     <h1 id="title">Journaling Timer</h1> <!-- タイトルを追加 -->
-    
+
     <div id="countdown">
         <span id="minutes">00</span>:<span id="seconds">00</span>
     </div>
+    <p id="roundInfo"></p>
+    
+    <!-- 補足説明を追加 -->
+    <div id="description">
+        <p>1分を10ラウンドするタイマーです。</p>
+        <p>ラウンドの間に2秒のマージンがあります。</p>
+    </div>
+
     <button id="startButton">スタート</button>
     <button id="stopButton">ストップ</button>
-    <p id="roundInfo"></p>
 
     <audio id="startSound" src="start-sound.mp3"></audio>
     <audio id="finishSound" src="finish-sound.mp3"></audio>
