@@ -1,27 +1,33 @@
-<!-- png形式のファビコン -->
-<link rel="icon" href="/countdown_timer_favicon.ico.png" type="image/png" sizes="32x32">
-<link rel="icon" href="/countdown_timer_favicon.ico.png" type="image/png" sizes="48x48">
-<link rel="icon" href="/countdown_timer_favicon.ico.png" type="image/png" sizes="64x64">
-
-<!DOCTYPE html>
 <html lang="ja">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>繰り返しカウントダウンタイマー</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="/countdown_timer_favicon.ico.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="/countdown_timer_favicon.ico.png" type="image/png" sizes="48x48">
+    <link rel="icon" href="/countdown_timer_favicon.ico.png" type="image/png" sizes="64x64">
+
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>繰り返しカウントダウンタイマー</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1 id="title">Journaling Timer</h1> <!-- タイトルを追加 -->
+    
     <div id="countdown">
         <span id="minutes">00</span>:<span id="seconds">00</span>
     </div>
     <button id="startButton">スタート</button>
+    <button id="stopButton">ストップ</button>
     <p id="roundInfo"></p>
 
     <audio id="startSound" src="start-sound.mp3"></audio>
     <audio id="finishSound" src="finish-sound.mp3"></audio>
     <audio id="finalSound" src="final-sound.mp3"></audio>
-
 
     <script src="script.js"></script>
 </body>
