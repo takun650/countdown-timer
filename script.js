@@ -1,11 +1,12 @@
 const startButton = document.getElementById('startButton');
+const stopButton = document.getElementById('stopButton');
 const minutesSpan = document.getElementById('minutes');
 const secondsSpan = document.getElementById('seconds');
 const roundInfo = document.getElementById('roundInfo');
 
 const startSound = document.getElementById('startSound');
 const finishSound = document.getElementById('finishSound');
-const finalSound = document.getElementById('finalSound');  // 10回目用の音声
+const finalSound = document.getElementById('finalSound');
 
 let countdown;
 let interval;
@@ -14,14 +15,21 @@ let currentRound = 0;
 let countdownDuration = 60;  // 60秒間カウントダウン
 let intervalDuration = 2;    // 2秒インターバル
 
+let isStopped = false;  // ストップ状態を管理する変数
+
 function startCountdown() {
     let remainingTime = countdownDuration;
     roundInfo.textContent = `ラウンド ${currentRound + 1} / ${totalRounds}`;
-
+    
     // カウントダウンスタート時に音を鳴らす
     startSound.play();
 
     countdown = setInterval(() => {
+        if (isStopped) {
+            clearInterval(countdown);  // ストップ時はカウントダウンを止める
+            return;
+        }
+
         const minutes = Math.floor(remainingTime / 60);
         const seconds = remainingTime % 60;
 
@@ -49,8 +57,13 @@ function startCountdown() {
 function startInterval() {
     let remainingInterval = intervalDuration;
     roundInfo.textContent = "インターバル中...";
-    
+
     interval = setInterval(() => {
+        if (isStopped) {
+            clearInterval(interval);  // ストップ時はインターバルも止める
+            return;
+        }
+
         if (remainingInterval === 0) {
             clearInterval(interval);
             startCountdown();
@@ -60,9 +73,16 @@ function startInterval() {
     }, 1000);
 }
 
+// スタートボタンの動作
 startButton.addEventListener('click', () => {
+    isStopped = false;  // ストップ状態を解除
     clearInterval(countdown);  // スタートを押すたびにタイマーをリセット
     clearInterval(interval);
     currentRound = 0;
     startCountdown();
+});
+
+// ストップボタンの動作
+stopButton.addEventListener('click', () => {
+    isStopped = true;  // ストップ状態にする
 });
