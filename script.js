@@ -40,20 +40,21 @@ function startCountdown() {
         minutesSpan.textContent = String(minutes).padStart(2, '0');
         secondsSpan.textContent = String(seconds).padStart(2, '0');
 
+        // 残り1秒のときにフィニッシュ音を鳴らす
+        if (remainingTime === 1) {
+            finishSound.play();  // フィニッシュ音を鳴らす
+        }
+
         if (remainingTime === 0) {
             clearInterval(countdown);
 
-            // フィニッシュ音を次のインターバル開始時にユーザー操作と連携して再生
+            // 最終ラウンドかどうかで鳴らす音を分ける
             if (currentRound === totalRounds - 1) {
                 finalSound.play();  // 10サイクル目には別の音を鳴らす
                 alert("すべてのラウンドが完了しました！");
             } else {
-                // 次のラウンドが開始するときにフィニッシュ音を再生
                 currentRound++;
-                setTimeout(() => {
-                    finishSound.play();  // 音を再生
-                    startInterval();     // 2秒のインターバルを開始
-                }, 500); // 音を鳴らす前に少し待つ
+                startInterval();  // 2秒のインターバルを開始
             }
         } else {
             remainingTime--;
