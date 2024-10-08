@@ -43,14 +43,16 @@ function startCountdown() {
         if (remainingTime === 0) {
             clearInterval(countdown);
 
+            // ラウンドが終了した時点で必ずフィニッシュの音を鳴らす
+            finishSound.play();
+
             // 最終ラウンドかどうかで鳴らす音を分ける
             if (currentRound === totalRounds - 1) {
                 finalSound.play();  // 10サイクル目には別の音を鳴らす
                 alert("すべてのラウンドが完了しました！");
             } else {
-                finishSound.play();
                 currentRound++;
-                startInterval();
+                startInterval();  // 2秒のインターバルを開始
             }
         } else {
             remainingTime--;
@@ -70,7 +72,7 @@ function startInterval() {
 
         if (remainingInterval === 0) {
             clearInterval(interval);
-            remainingTime = countdownDuration;  // 次のカウントダウンに向けて時間リセット
+            remainingTime = countdownDuration;  // 次のラウンドのカウントダウンを開始
             startCountdown();
         } else {
             remainingInterval--;
