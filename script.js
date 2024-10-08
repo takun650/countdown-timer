@@ -12,7 +12,7 @@ let countdown;
 let interval;
 let totalRounds = 10;  // 合計で10回繰り返す
 let currentRound = 0;
-let countdownDuration = 5;  // 60秒間カウントダウン
+let countdownDuration = 60;  // 60秒間カウントダウン
 let intervalDuration = 2;    // 2秒インターバル
 
 let isStopped = false;  // ストップ状態を管理する変数
@@ -61,22 +61,12 @@ function startCountdown() {
         minutesSpan.textContent = String(minutes).padStart(2, '0');
         secondsSpan.textContent = String(seconds).padStart(2, '0');
 
-        // サウンド発生: 最終ラウンドの残り2秒の時
-        if (currentRound === totalRounds - 1 && remainingTime === 2) {
-            finalSound.play();
-        }
-
-        // サウンド発生: 残り1秒の時
-        if (remainingTime === 1) {
-            finishSound.play();
-        }
-
         // サウンド発生: 残り0秒の時
         if (remainingTime === 0) {
             clearInterval(countdown);
 
             if (currentRound === totalRounds - 1) {
-                // サウンド発生: 最終ラウンドの残り1秒の時（実質0秒時）
+                // 最終ラウンドの終了時
                 finalSound.play();
                 alert("すべてのラウンドが完了しました！");
             } else {
