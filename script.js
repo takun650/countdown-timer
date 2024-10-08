@@ -5,14 +5,15 @@ const secondsSpan = document.getElementById('seconds');
 const roundInfo = document.getElementById('roundInfo');
 
 const startSound = document.getElementById('startSound');
-const finishSound = document.getElementById('finishSound');
-const finalSound = document.getElementById('finalSound');
+// 全てのサウンドを「スタートサウンド」に統一
+const finishSound = startSound;
+const finalSound = startSound;
 
 let countdown;
 let interval;
 let totalRounds = 10;  // 合計で10回繰り返す
 let currentRound = 0;
-let countdownDuration = 60;  // 60秒間カウントダウン
+let countdownDuration = 5;  // 60秒間カウントダウン
 let intervalDuration = 2;    // 2秒インターバル
 
 let isStopped = false;  // ストップ状態を管理する変数
@@ -20,16 +21,9 @@ let remainingTime;      // ストップ後に再開するための残り時間
 
 // ページ読み込み時に音声ファイルをキャッシュに載せる
 window.addEventListener('load', () => {
-    // 音声ファイルを事前に読み込む
+    // スタートサウンドを事前に再生してキャッシュに載せる
     startSound.play();
     startSound.pause();
-
-    finishSound.play();
-    finishSound.pause();
-
-    finalSound.play();
-    finalSound.pause();
-
     console.log('サウンドファイルをキャッシュしました');
 });
 
@@ -64,9 +58,12 @@ function startCountdown() {
         minutesSpan.textContent = String(minutes).padStart(2, '0');
         secondsSpan.textContent = String(seconds).padStart(2, '0');
 
-        // 残り1秒のときにフィニッシュ音を鳴らす
+        // 残り1秒のときにフィニッシュ音を2回鳴らす
         if (remainingTime === 1) {
-            finishSound.play();  // フィニッシュ音を鳴らす
+            finishSound.play();  // 1回目の音を再生
+            setTimeout(() => {
+                finishSound.play();  // 2回目の音を少し遅れて再生
+            }, 500);  // 500ms遅らせて2回目を再生
         }
 
         if (remainingTime === 0) {
@@ -74,7 +71,12 @@ function startCountdown() {
 
             // 最終ラウンドかどうかで鳴らす音を分ける
             if (currentRound === totalRounds - 1) {
-                finalSound.play();  // 10サイクル目には別の音を鳴らす
+                // ファイナルで4回音を鳴らす
+                for (let i = 0; i < 4; i++) {
+                    setTimeout(() => {
+                        finalSound.play();  // 4回音を鳴らす
+                    }, i * 500);  // 500msずつ遅らせて4回再生
+                }
                 alert("すべてのラウンドが完了しました！");
             } else {
                 currentRound++;
