@@ -5,9 +5,8 @@ const secondsSpan = document.getElementById('seconds');
 const roundInfo = document.getElementById('roundInfo');
 
 const startSound = document.getElementById('startSound');
-// 全てのサウンドを「スタートサウンド」に設定
-const finishSound = startSound;
-const finalSound = startSound;
+const finishSound = document.getElementById('finishSound');
+const finalSound = document.getElementById('finalSound');
 
 let countdown;
 let interval;
@@ -24,6 +23,12 @@ window.addEventListener('load', () => {
     // 音声ファイルを事前に読み込む
     startSound.play();
     startSound.pause();
+
+    finishSound.play();
+    finishSound.pause();
+
+    finalSound.play();
+    finalSound.pause();
 
     console.log('サウンドファイルをキャッシュしました');
 });
@@ -59,7 +64,7 @@ function startCountdown() {
         minutesSpan.textContent = String(minutes).padStart(2, '0');
         secondsSpan.textContent = String(seconds).padStart(2, '0');
 
-        // 残り1秒のときにフィニッシュ音（スタートサウンド）を鳴らす
+        // 残り1秒のときにフィニッシュ音を鳴らす
         if (remainingTime === 1) {
             finishSound.play();  // フィニッシュ音を鳴らす
         }
@@ -67,9 +72,9 @@ function startCountdown() {
         if (remainingTime === 0) {
             clearInterval(countdown);
 
-            // 最終ラウンドかどうかで鳴らす音を分ける（スタートサウンド）
+            // 最終ラウンドかどうかで鳴らす音を分ける
             if (currentRound === totalRounds - 1) {
-                finalSound.play();  // 10サイクル目には同じ音を鳴らす
+                finalSound.play();  // 10サイクル目には別の音を鳴らす
                 alert("すべてのラウンドが完了しました！");
             } else {
                 currentRound++;
