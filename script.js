@@ -58,14 +58,14 @@ function startCountdown() {
         minutesSpan.textContent = String(minutes).padStart(2, '0');
         secondsSpan.textContent = String(seconds).padStart(2, '0');
 
+        // 残り2秒のときにフィニッシュ音を2回鳴らす
+        if (remainingTime === 2) {
+            finishSound.play();  // 1回目の音を再生
+        }
         // 残り1秒のときにフィニッシュ音を2回鳴らす
         if (remainingTime === 1) {
-            finishSound.play();  // 1回目の音を再生
-            setTimeout(() => {
-                finishSound.play();  // 2回目の音を少し遅れて再生
-            }, 500);  // 500ms遅らせて2回目を再生
-        }
-
+            finishSound.play();  // 2回目の音を再生
+            
         if (remainingTime === 0) {
             clearInterval(countdown);
 
