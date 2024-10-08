@@ -18,16 +18,23 @@ let intervalDuration = 2;    // 2秒インターバル
 let isStopped = false;  // ストップ状態を管理する変数
 let remainingTime;      // ストップ後に再開するための残り時間
 
-// 初めてのスタート時に音声を事前にロードする
-startButton.addEventListener('click', () => {
-    // スタート音を再生（これでブラウザが音声再生を許可するようになる）
+// ページ読み込み時に音声ファイルをキャッシュに載せる
+window.addEventListener('load', () => {
+    // 音声ファイルを事前に読み込む
     startSound.play();
-    
-    // フィニッシュ音を事前に再生して、音声をキャッシュに載せる
-    finishSound.play();
-    finishSound.pause();  // 即座に停止して音を事前に準備
+    startSound.pause();
 
-    // フィニッシュ音が準備されている状態でタイマーを開始
+    finishSound.play();
+    finishSound.pause();
+
+    finalSound.play();
+    finalSound.pause();
+
+    console.log('サウンドファイルをキャッシュしました');
+});
+
+// スタートボタンの動作
+startButton.addEventListener('click', () => {
     isStopped = false;  // ストップ状態を解除
     clearInterval(countdown);  // スタートを押すたびにタイマーをリセット
     clearInterval(interval);
