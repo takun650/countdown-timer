@@ -5,15 +5,14 @@ const secondsSpan = document.getElementById('seconds');
 const roundInfo = document.getElementById('roundInfo');
 
 const startSound = document.getElementById('startSound');
-// 全てのサウンドを「スタートサウンド」に統一
-const finishSound = startSound;
-const finalSound = startSound;
+const finishSound = document.getElementById('finishSound');
+const finalSound = document.getElementById('finalSound');
 
 let countdown;
 let interval;
 let totalRounds = 10;  // 合計で10回繰り返す
 let currentRound = 0;
-let countdownDuration = 5;  // 60秒間カウントダウン
+let countdownDuration = 60;  // 60秒間カウントダウン
 let intervalDuration = 2;    // 2秒インターバル
 
 let isStopped = false;  // ストップ状態を管理する変数
@@ -21,34 +20,38 @@ let remainingTime;      // ストップ後に再開するための残り時間
 
 // ページ読み込み時に音声ファイルをキャッシュに載せる
 window.addEventListener('load', () => {
-    // スタートサウンドを事前に再生してキャッシュに載せる
     startSound.play();
     startSound.pause();
-    console.log('サウンドファイルをキャッシュしました');
+
+    finishSound.play();
+    finishSound.pause();
+
+    finalSound.play();
+    finalSound.pause();
 });
 
 // スタートボタンの動作
 startButton.addEventListener('click', () => {
-    isStopped = false;  // ストップ状態を解除
-    clearInterval(countdown);  // スタートを押すたびにタイマーをリセット
+    isStopped = false;
+    clearInterval(countdown);
     clearInterval(interval);
-    startCountdown();  // 残り時間から再開
+    startCountdown();
 });
 
 // カウントダウンの処理
 function startCountdown() {
     if (!remainingTime) {
-        remainingTime = countdownDuration;  // 残り時間がない場合は初期値をセット
+        remainingTime = countdownDuration;
     }
     
-    roundInfo.textContent = `ラウンド ${currentRound + 1} / ${totalRounds}`;
-
-    // カウントダウンスタート時に音を鳴らす
+    // サウンド発生: スタート時
     startSound.play();
+
+    roundInfo.textContent = `ラウンド ${currentRound + 1} / ${totalRounds}`;
 
     countdown = setInterval(() => {
         if (isStopped) {
-            clearInterval(countdown);  // ストップ時はカウントダウンを止める
+            clearInterval(countdown);
             return;
         }
 
@@ -58,29 +61,28 @@ function startCountdown() {
         minutesSpan.textContent = String(minutes).padStart(2, '0');
         secondsSpan.textContent = String(seconds).padStart(2, '0');
 
-        // 残り2秒のときにフィニッシュ音を2回鳴らす
-        if (remainingTime === 2) {
-            finishSound.play();  // 1回目の音を再生
+        // サウンド発生: 最終ラウンドの残り2秒の時
+        if (currentRound === totalRounds - 1 && remainingTime === 2) {
+            finalSound.play();
         }
-        // 残り1秒のときにフィニッシュ音を2回鳴らす
+
+        // サウンド発生: 残り1秒の時
         if (remainingTime === 1) {
-            finishSound.play();  // 2回目の音を再生
-            
+            finishSound.play();
+        }
+
+        // サウンド発生: 残り0秒の時
         if (remainingTime === 0) {
             clearInterval(countdown);
 
-            // 最終ラウンドかどうかで鳴らす音を分ける
             if (currentRound === totalRounds - 1) {
-                // ファイナルで4回音を鳴らす
-                for (let i = 0; i < 4; i++) {
-                    setTimeout(() => {
-                        finalSound.play();  // 4回音を鳴らす
-                    }, i * 500);  // 500msずつ遅らせて4回再生
-                }
+                // サウンド発生: 最終ラウンドの残り1秒の時（実質0秒時）
+                finalSound.play();
                 alert("すべてのラウンドが完了しました！");
             } else {
+                // 次のラウンドを開始
                 currentRound++;
-                startInterval();  // 2秒のインターバルを開始
+                startInterval();
             }
         } else {
             remainingTime--;
@@ -94,13 +96,16 @@ function startInterval() {
 
     interval = setInterval(() => {
         if (isStopped) {
-            clearInterval(interval);  // ストップ時はインターバルも止める
+            clearInterval(interval);
             return;
         }
 
         if (remainingInterval === 0) {
             clearInterval(interval);
-            remainingTime = countdownDuration;  // 次のラウンドのカウントダウンを開始
+            remainingTime = countdownDuration;
+
+            // サウンド発生: 次のラウンドスタートの時
+            startSound.play();
             startCountdown();
         } else {
             remainingInterval--;
@@ -110,5 +115,5 @@ function startInterval() {
 
 // ストップボタンの動作
 stopButton.addEventListener('click', () => {
-    isStopped = true;  // ストップ状態にする
+    isStopped = true;
 });
