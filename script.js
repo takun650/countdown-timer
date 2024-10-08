@@ -18,6 +18,23 @@ let intervalDuration = 2;    // 2秒インターバル
 let isStopped = false;  // ストップ状態を管理する変数
 let remainingTime;      // ストップ後に再開するための残り時間
 
+// 初めてのスタート時に音声を事前にロードする
+startButton.addEventListener('click', () => {
+    // スタート音を再生（これでブラウザが音声再生を許可するようになる）
+    startSound.play();
+    
+    // フィニッシュ音を事前に再生して、音声をキャッシュに載せる
+    finishSound.play();
+    finishSound.pause();  // 即座に停止して音を事前に準備
+
+    // フィニッシュ音が準備されている状態でタイマーを開始
+    isStopped = false;  // ストップ状態を解除
+    clearInterval(countdown);  // スタートを押すたびにタイマーをリセット
+    clearInterval(interval);
+    startCountdown();  // 残り時間から再開
+});
+
+// カウントダウンの処理
 function startCountdown() {
     if (!remainingTime) {
         remainingTime = countdownDuration;  // 残り時間がない場合は初期値をセット
@@ -81,14 +98,6 @@ function startInterval() {
         }
     }, 1000);
 }
-
-// スタートボタンの動作
-startButton.addEventListener('click', () => {
-    isStopped = false;  // ストップ状態を解除
-    clearInterval(countdown);  // スタートを押すたびにタイマーをリセット
-    clearInterval(interval);
-    startCountdown();  // 残り時間から再開
-});
 
 // ストップボタンの動作
 stopButton.addEventListener('click', () => {
