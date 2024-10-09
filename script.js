@@ -18,40 +18,19 @@ let intervalDuration = 2;    // 2秒インターバル
 let isStopped = false;  // ストップ状態を管理する変数
 let remainingTime;      // ストップ後に再開するための残り時間
 
-// ページ読み込み時に音声ファイルをキャッシュに載せる
-window.addEventListener('load', () => {
-    startSound.play();
-    startSound.pause();
-
-    finishSound.play();
-    finishSound.pause();
-
-    finalSound.play();
-    finalSound.pause();
-});
-
-// スタートボタンの動作
-startButton.addEventListener('click', () => {
-    isStopped = false;
-    clearInterval(countdown);
-    clearInterval(interval);
-    startCountdown();
-});
-
-// カウントダウンの処理
 function startCountdown() {
     if (!remainingTime) {
-        remainingTime = countdownDuration;
+        remainingTime = countdownDuration;  // 残り時間がない場合は初期値をセット
     }
     
-    // サウンド発生: スタート時
-    startSound.play();
-
     roundInfo.textContent = `ラウンド ${currentRound + 1} / ${totalRounds}`;
+
+    // カウントダウンスタート時に音を鳴らす
+    startSound.play();
 
     countdown = setInterval(() => {
         if (isStopped) {
-            clearInterval(countdown);
+            clearInterval(countdown);  // ストップ時はカウントダウンを止める
             return;
         }
 
@@ -61,18 +40,19 @@ function startCountdown() {
         minutesSpan.textContent = String(minutes).padStart(2, '0');
         secondsSpan.textContent = String(seconds).padStart(2, '0');
 
-        // サウンド発生: 残り0秒の時
         if (remainingTime === 0) {
             clearInterval(countdown);
 
+            // ラウンドが終了した時点で必ずフィニッシュの音を鳴らす
+            finishSound.play();
+
+            // 最終ラウンドかどうかで鳴らす音を分ける
             if (currentRound === totalRounds - 1) {
-                // 最終ラウンドの終了時
-                finalSound.play();
+                finalSound.play();  // 10サイクル目には別の音を鳴らす
                 alert("すべてのラウンドが完了しました！");
             } else {
-                // 次のラウンドを開始
                 currentRound++;
-                startInterval();
+                startInterval();  // 2秒のインターバルを開始
             }
         } else {
             remainingTime--;
@@ -86,16 +66,13 @@ function startInterval() {
 
     interval = setInterval(() => {
         if (isStopped) {
-            clearInterval(interval);
+            clearInterval(interval);  // ストップ時はインターバルも止める
             return;
         }
 
         if (remainingInterval === 0) {
             clearInterval(interval);
-            remainingTime = countdownDuration;
-
-            // サウンド発生: 次のラウンドスタートの時
-            startSound.play();
+            remainingTime = countdownDuration;  // 次のラウンドのカウントダウンを開始
             startCountdown();
         } else {
             remainingInterval--;
@@ -103,7 +80,15 @@ function startInterval() {
     }, 1000);
 }
 
+// スタートボタンの動作
+startButton.addEventListener('click', () => {
+    isStopped = false;  // ストップ状態を解除
+    clearInterval(countdown);  // スタートを押すたびにタイマーをリセット
+    clearInterval(interval);
+    startCountdown();  // 残り時間から再開
+});
+
 // ストップボタンの動作
 stopButton.addEventListener('click', () => {
-    isStopped = true;
+    isStopped = true;  // ストップ状態にする
 });
