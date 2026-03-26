@@ -13,7 +13,7 @@ let interval;
 let totalRounds = 10;  // 合計で10回繰り返す
 let currentRound = 0;
 let countdownDuration = 60;  // 60秒間カウントダウン
-let intervalDuration = 2;    // 2秒インターバル
+let intervalDuration = 10;    // 10秒インターバル
 
 let isStopped = false;  // ストップ状態を管理する変数
 let remainingTime;      // ストップ後に再開するための残り時間
